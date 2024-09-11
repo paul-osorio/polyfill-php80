@@ -1,6 +1,6 @@
 <?php
 
-include($base_dir . 'includes/header.php');
+include('public/includes/header.php');
 
 if (isset($_SESSION['bactigel']) && $_SESSION['bactigel']) {
     header('Location: dashboard');
@@ -80,5 +80,5 @@ if (isset($_SESSION['bactigel']) && $_SESSION['bactigel']) {
 
 <?php
 
-include($base_dir . 'includes/footer.php');
+include('public/includes/footer.php');
 ?>

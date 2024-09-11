@@ -2,25 +2,19 @@
 
 include_once 'app/config/session.php';
 
-$path = isset($_GET['path']) ? $_GET['path'] : '';
+require 'app/core/router.php';
+
+// Get the request URL and extract the controller/action
+$url = isset($_GET['path']) ? $_GET['path'] : '';
+$url = rtrim($url, '/');
+$url = filter_var($url, FILTER_SANITIZE_URL);
+$url = explode('/', $url);
 
 
-//sanitize the path
-$filtered_path = preg_replace('/[^a-zA-Z0-9_\/]/', '', $path);
-
-$base_dir = 'public/';
-
-if ($filtered_path === '') {
-    $filtered_path = 'index';
-}
-
-$file = realpath($base_dir . 'pages/' . $filtered_path . '.php');
+$controller = !empty($url[0]) ? $url[0] : 'authentication';
+$action = !empty($url[1]) ? $url[1] : 'login';
 
 
-// Check if the file exists and ensure it is within the base directory
-if ($file && strpos($file, realpath($base_dir . 'pages')) === 0) {
-    include $file;
-} else {
-    http_response_code(404);
-    include $base_dir . '404.php';
-}
+
+// Load and route the controller
+router($controller, $action);
